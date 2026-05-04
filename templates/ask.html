@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask a Question – AI Resume Coach</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        *{font-family:'Outfit',sans-serif}
+        body{background:linear-gradient(160deg,#0a0a1a,#0d1117 30%,#111827 60%,#0f172a);min-height:100vh;position:relative}
+        body::before{content:'';position:fixed;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,#f97316,#ec4899);filter:blur(120px);opacity:.15;top:20%;right:-5%;z-index:0}
+        body::after{content:'';position:fixed;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,#06b6d4,#3b82f6);filter:blur(100px);opacity:.12;bottom:10%;left:10%;z-index:0}
+        .glass{background:rgba(255,255,255,.04);backdrop-filter:blur(24px) saturate(1.5);border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 32px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05)}
+        .gradient-text{background:linear-gradient(135deg,#f97316,#ef4444 40%,#ec4899 70%,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .input-field{background:rgba(255,255,255,.05);border:1px solid rgba(249,115,22,.2);color:#fff;transition:all .3s ease}
+        .input-field::placeholder{color:rgba(156,163,175,.5)}
+        .input-field:focus{outline:none;border-color:rgba(249,115,22,.6);background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(249,115,22,.12),0 0 30px rgba(249,115,22,.06)}
+        .btn-primary{background:linear-gradient(135deg,#f97316,#ef4444 50%,#ec4899);transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 20px rgba(249,115,22,.35);position:relative;overflow:hidden}
+        .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#fb923c,#f87171 50%,#f472b6);opacity:0;transition:opacity .4s ease}
+        .btn-primary:hover::before{opacity:1}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(249,115,22,.5)}
+        .btn-primary span,.btn-primary svg{position:relative;z-index:1}
+        .nav-bar{background:rgba(10,10,26,.6);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.05)}
+        .chip{background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);cursor:pointer;transition:all .25s ease}
+        .chip:hover{background:rgba(249,115,22,.15);border-color:rgba(249,115,22,.35);transform:translateY(-1px);box-shadow:0 4px 12px rgba(249,115,22,.1)}
+        #container{animation:fUp .7s ease-out forwards}
+        @keyframes fUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:rgba(249,115,22,.3);border-radius:3px}
+    </style>
+</head>
+<body>
+    <nav class="nav-bar fixed top-0 left-0 right-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <span class="text-white font-bold text-lg tracking-tight">ResumeCoach<span class="text-orange-400">AI</span></span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="relative z-10 flex items-center justify-center p-6 pt-24 min-h-screen">
+        <div id="container" class="glass rounded-3xl p-8 md:p-10 w-full max-w-xl">
+            <div class="flex items-center gap-4 mb-8">
+                <a href="/" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </a>
+                <div>
+                    <p class="text-gray-500 text-xs uppercase tracking-widest">AI Resume Coach</p>
+                    <h1 class="text-2xl font-black gradient-text">Ask About Your Resume</h1>
+                </div>
+            </div>
+
+            <div class="flex justify-center mb-6">
+                <div class="w-16 h-16 rounded-2xl flex items-center justify-center" style="background:linear-gradient(135deg,rgba(249,115,22,.2),rgba(236,72,153,.2));border:1px solid rgba(249,115,22,.25)">
+                    <svg class="w-8 h-8 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                </div>
+            </div>
+
+            <p class="text-gray-400 text-sm text-center mb-6">Ask anything about your uploaded resume — skills, experience, improvements, or job fit.</p>
+
+            <div class="flex flex-wrap gap-2 mb-6 justify-center">
+                <button type="button" onclick="setQuery(this)" class="chip text-orange-300 text-xs px-3.5 py-2 rounded-full font-medium">What are my key skills?</button>
+                <button type="button" onclick="setQuery(this)" class="chip text-orange-300 text-xs px-3.5 py-2 rounded-full font-medium">How can I improve?</button>
+                <button type="button" onclick="setQuery(this)" class="chip text-orange-300 text-xs px-3.5 py-2 rounded-full font-medium">What jobs suit me?</button>
+                <button type="button" onclick="setQuery(this)" class="chip text-orange-300 text-xs px-3.5 py-2 rounded-full font-medium">Summarize experience</button>
+            </div>
+
+            <form action="/ask" method="POST" class="space-y-4" id="askForm">
+                <div class="relative">
+                    <input type="text" name="query" id="queryInput" placeholder="e.g. What are my strongest skills?" required class="input-field w-full px-5 py-4 rounded-xl text-sm pr-12">
+                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500/40">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </span>
+                </div>
+                <button type="submit" class="btn-primary w-full py-4 rounded-xl text-white font-bold text-sm tracking-wide flex items-center justify-center gap-2">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        Get AI Answer
+                    </span>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script>function setQuery(btn){document.getElementById('queryInput').value=btn.textContent.trim()}</script>
+</body>
+</html>

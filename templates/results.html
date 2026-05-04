@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis Results – AI Resume Coach</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        *{font-family:'Outfit',sans-serif}
+        body{background:linear-gradient(160deg,#0a0a1a,#0d1117 30%,#111827 60%,#0f172a);min-height:100vh;position:relative}
+        body::before{content:'';position:fixed;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,#f97316,#ef4444);filter:blur(120px);opacity:.15;top:-5%;right:10%;z-index:0}
+        body::after{content:'';position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,#06b6d4,#8b5cf6);filter:blur(100px);opacity:.12;bottom:10%;left:5%;z-index:0}
+        .glass{background:rgba(255,255,255,.04);backdrop-filter:blur(24px) saturate(1.5);border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 32px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05)}
+        .gradient-text{background:linear-gradient(135deg,#f97316,#ef4444 40%,#ec4899 70%,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .result-box{background:rgba(255,255,255,.03);border:1px solid rgba(249,115,22,.12)}
+        .btn-primary{background:linear-gradient(135deg,#f97316,#ef4444 50%,#ec4899);transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 20px rgba(249,115,22,.35);position:relative;overflow:hidden}
+        .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#fb923c,#f87171 50%,#f472b6);opacity:0;transition:opacity .4s ease}
+        .btn-primary:hover::before{opacity:1}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(249,115,22,.5)}
+        .btn-primary span,.btn-primary svg{position:relative;z-index:1}
+        .btn-secondary{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);transition:all .3s ease}
+        .btn-secondary:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+        .nav-bar{background:rgba(10,10,26,.6);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.05)}
+        #container{animation:fUp .7s ease-out forwards}
+        #resultCard{animation:fUp .7s ease-out .2s both}
+        @keyframes fUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:rgba(249,115,22,.3);border-radius:3px}::-webkit-scrollbar-track{background:transparent}
+        .section-icon{background:linear-gradient(135deg,rgba(249,115,22,.15),rgba(236,72,153,.15));border:1px solid rgba(249,115,22,.2)}
+
+        /* Formatted AI output styles */
+        .ai-content { color: #e5e7eb; font-size: 0.875rem; line-height: 1.85; }
+        .ai-content h3 { color: #f9fafb; font-weight: 700; font-size: 1rem; margin: 1.25rem 0 0.5rem 0; padding-bottom: 0.4rem; border-bottom: 1px solid rgba(249,115,22,.15); }
+        .ai-content h3:first-child { margin-top: 0; }
+        .ai-content p { margin-bottom: 0.75rem; }
+        .ai-content ol { list-style: none; counter-reset: item; padding-left: 0; margin: 0.5rem 0; }
+        .ai-content ol li { counter-increment: item; padding: 0.6rem 0.75rem 0.6rem 2.5rem; position: relative; margin-bottom: 0.4rem; background: rgba(249,115,22,.04); border: 1px solid rgba(249,115,22,.08); border-radius: 0.75rem; transition: all 0.2s ease; }
+        .ai-content ol li:hover { background: rgba(249,115,22,.08); border-color: rgba(249,115,22,.18); }
+        .ai-content ol li::before { content: counter(item); position: absolute; left: 0.75rem; top: 0.6rem; width: 1.4rem; height: 1.4rem; background: linear-gradient(135deg, #f97316, #ef4444); border-radius: 0.4rem; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: #fff; text-align: center; line-height: 1.4rem; }
+        .ai-content ul { padding-left: 0; margin: 0.5rem 0; list-style: none; }
+        .ai-content ul li { padding: 0.4rem 0 0.4rem 1.5rem; position: relative; margin-bottom: 0.25rem; }
+        .ai-content ul li::before { content: ''; position: absolute; left: 0.25rem; top: 0.85rem; width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(135deg, #f97316, #ec4899); }
+        .ai-content strong, .ai-content b { color: #f9fafb; font-weight: 600; }
+        .ai-content em { color: #fb923c; font-style: italic; }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar fixed top-0 left-0 right-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <span class="text-white font-bold text-lg tracking-tight">ResumeCoach<span class="text-orange-400">AI</span></span>
+            </a>
+            <div class="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-emerald-400 text-xs font-semibold">Analysis Complete</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 flex items-start justify-center p-6 pt-24 min-h-screen">
+        <div id="container" class="glass rounded-3xl p-8 md:p-10 w-full max-w-4xl">
+            <div class="flex items-center gap-4 mb-8">
+                <a href="/" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </a>
+                <div class="flex-1">
+                    <p class="text-gray-500 text-xs uppercase tracking-widest">AI Resume Coach</p>
+                    <h1 class="text-2xl font-black gradient-text">Resume Analysis Results</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 mb-6 p-4 rounded-xl" style="background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.12)">
+                <div class="section-icon w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                </div>
+                <div>
+                    <p class="text-orange-300 text-sm font-semibold">AI Analysis Summary</p>
+                    <p class="text-gray-500 text-xs">Comprehensive career insights powered by AI</p>
+                </div>
+            </div>
+
+            <div id="resultCard" class="result-box rounded-2xl p-6 md:p-8 max-h-[60vh] overflow-y-auto mb-8">
+                <div class="ai-content" id="aiOutput"></div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <a href="/ask" class="btn-primary flex-1 text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 text-sm no-underline">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                        Ask About My Resume
+                    </span>
+                </a>
+                <a href="/" class="btn-secondary text-white font-semibold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 text-sm no-underline">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    Analyze Another
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    function formatAIText(raw) {
+        let html = '';
+        const lines = raw.split('\n');
+        let inOL = false, inUL = false;
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
+            if (!line) {
+                if (inOL) { html += '</ol>'; inOL = false; }
+                if (inUL) { html += '</ul>'; inUL = false; }
+                continue;
+            }
+            line = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            line = line.replace(/__(.+?)__/g, '<strong>$1</strong>');
+            if (/^##\s+/.test(line)) {
+                if (inOL) { html += '</ol>'; inOL = false; }
+                if (inUL) { html += '</ul>'; inUL = false; }
+                html += '<h3>' + line.replace(/^##\s+/, '') + '</h3>';
+                continue;
+            }
+            const numMatch = line.match(/^(\d+)[.)]\s+(.+)/);
+            if (numMatch) {
+                if (inUL) { html += '</ul>'; inUL = false; }
+                if (!inOL) { html += '<ol>'; inOL = true; }
+                html += '<li>' + numMatch[2] + '</li>';
+                continue;
+            }
+            const bulletMatch = line.match(/^[-*•]\s+(.+)/);
+            if (bulletMatch) {
+                if (inOL) { html += '</ol>'; inOL = false; }
+                if (!inUL) { html += '<ul>'; inUL = true; }
+                html += '<li>' + bulletMatch[1] + '</li>';
+                continue;
+            }
+            if (line.endsWith(':') && line.length < 80 && !line.includes('.')) {
+                if (inOL) { html += '</ol>'; inOL = false; }
+                if (inUL) { html += '</ul>'; inUL = false; }
+                html += '<h3>' + line.replace(/:$/, '') + '</h3>';
+                continue;
+            }
+            if (inOL) { html += '</ol>'; inOL = false; }
+            if (inUL) { html += '</ul>'; inUL = false; }
+            html += '<p>' + line + '</p>';
+        }
+        if (inOL) html += '</ol>';
+        if (inUL) html += '</ul>';
+        return html;
+    }
+
+    const rawText = document.getElementById('aiOutput');
+    const raw = {{ resume_analysis | tojson }};
+    rawText.innerHTML = formatAIText(raw);
+    </script>
+</body>
+</html>
+
