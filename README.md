@@ -76,4 +76,4 @@ This project is optimized for deployment on **Render**.
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
-Built with ❤️ by [Your Name]
+Built with ❤️ by Sourav Kumar
