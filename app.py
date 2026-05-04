@@ -10,7 +10,7 @@ import PyPDF2
 from langchain_core.prompts import PromptTemplate
 from langchain_classic.chains import LLMChain, RetrievalQA
 from langchain_groq import ChatGroq
-from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings
+from langchain_huggingface import HuggingFaceEndpointEmbeddings
 from langchain_community.vectorstores import FAISS
 # from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import CharacterTextSplitter
@@ -24,9 +24,9 @@ text_splitter = CharacterTextSplitter(
             length_function=len,
         )
 
-embeddings = HuggingFaceInferenceAPIEmbeddings(
-    api_key=os.environ.get("HUGGINGFACEHUB_API_TOKEN"),
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
+embeddings = HuggingFaceEndpointEmbeddings(
+    model="sentence-transformers/all-MiniLM-L6-v2",
+    huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN")
 )
 
 
